@@ -44,27 +44,21 @@ log.info("Inicia el proceso de guardado del usuario");
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<UserGetResponse> getUser(@PathVariable UUID id) {
+    public ResponseEntity<UserGetResponse> getUser(@PathVariable("id") UUID id) {
         log.info("Inicia el proceso de obtencion del usuario ",id.toString());
         return ResponseEntity.ok(userServiceServices.getUserById(id));
     }
 
     @PutMapping("/users/{id}/password")
-    public ResponseEntity<Void> updatePassword(@PathVariable UUID id, @RequestBody PasswordUpdateDto dto) {
+    public ResponseEntity<Void> updatePassword(@PathVariable("id") UUID id, @RequestBody PasswordUpdateDto dto) {
         log.info("Inicia el proceso de actualizacion de credenciales del usuario ",id.toString());
         userServiceServices.updatePassword(id, dto);
         log.info("Finaliza el proceso de actualizacion de credenciales del usuario ",id.toString());
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/users/{id}/phones")
-    public ResponseEntity<UserGetResponse> addPhones(@PathVariable UUID id, @RequestBody List<Phone> phones) {
-        log.info("Inicia el proceso de agregar nuevos telefonos al usuario ",id.toString());
-        return ResponseEntity.ok(userServiceServices.addPhones(id, phones));
-    }
-
     @PatchMapping("/users/{id}/inactive")
-    public ResponseEntity<Void> setInactive(@PathVariable UUID id) {
+    public ResponseEntity<Void> setInactive(@PathVariable ("id") UUID id) {
          log.info("Inicia el proceso de inhabilitar el usuario ",id.toString());
         userServiceServices.setUserInactive(id);
         log.info("Finaliza con exito el proceso de inhabilitar el usuario ",id.toString());
@@ -72,7 +66,7 @@ log.info("Inicia el proceso de guardado del usuario");
     }
 
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable ("id") UUID id) {
         log.info("Inicia el proceso de eliminar el usuario ",id.toString());
         userServiceServices.deleteUser(id);
         log.info("Finaliza con exito el proceso de eliminar el usuario ",id.toString());

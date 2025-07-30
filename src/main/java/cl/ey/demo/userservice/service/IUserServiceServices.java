@@ -19,7 +19,5 @@ public interface IUserServiceServices {
 
     void setUserInactive(UUID id);
 
-    UserGetResponse addPhones(UUID id, List<Phone> phones);
-
     void deleteUser(UUID id);
 }

@@ -14,5 +14,4 @@ public interface UserServiceRepository extends JpaRepository<UserEntity, UUID>{
     Optional<UserEntity> findById(UUID id);
     void deleteById(UUID id);
     Optional<UserEntity> findByEmail(String email);
-    UserEntity findByIsActive(Boolean isActive);
 }

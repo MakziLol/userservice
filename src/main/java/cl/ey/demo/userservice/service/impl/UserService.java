@@ -1,5 +1,6 @@
 package cl.ey.demo.userservice.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -20,8 +21,7 @@ public class UserService implements IUserService {
    private final UserServiceRepository userServiceRepository;
 
    @Override
-   public UserEntity save(UserEntity user, List<PhoneEntity> phones) {
-      user.setPhones(phones);
+   public UserEntity save(UserEntity user) {
       return userServiceRepository.save(user);
    }
 
@@ -38,25 +38,12 @@ public class UserService implements IUserService {
    }
 
    @Override
-   public UserEntity addPhone(UUID id, List<Phone> phones) {
-      UserEntity user = get(id);
-      List<PhoneEntity> phoneEntities = phones.stream()
-            .map(phoneDto -> PhoneEntity.builder()
-                  .citycode(phoneDto.getCitycode())
-                  .contrycode(phoneDto.getContrycode())
-                  .number(phoneDto.getNumber())
-                  .build())
-            .toList();
-      user.setPhones(phoneEntities);
-      return userServiceRepository.save(user);
-   }
-
-   @Override
    public UserEntity updatePassword(UUID id, PasswordUpdateDto paswordDto) {
       UserEntity user = get(id);
       if (Objects.equals(user.getPassword(), paswordDto.getOldPassword())) {
          user.setPassword(paswordDto.getNewPassword());
       }
+      user.setModified(LocalDateTime.now());
       return userServiceRepository.save(user);
    }
 
@@ -66,6 +53,7 @@ public class UserService implements IUserService {
       if (Objects.equals(false, user.isInactive())) {
          user.setInactive(true);
       }
+      user.setModified(LocalDateTime.now());
       return userServiceRepository.save(user);
    }
 
