@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,7 +44,8 @@ public class UserEntity {
     @Column(name = "email", nullable = false, unique = true, length = 150)
     private String email;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<PhoneEntity> phones;
 
     @Column(name = "created", nullable = false)
@@ -53,7 +56,7 @@ public class UserEntity {
 
     @Column(name = "last_login", nullable = false)
     private LocalDateTime lastLogin;
-    
+
     @Column(name = "inactive", nullable = false)
     private boolean inactive;
 
